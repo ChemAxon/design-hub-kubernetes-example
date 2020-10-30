@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marvinjs-deployment
+  labels:
+    app: marvinjs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: marvinjs
+  template:
+    metadata:
+      labels:
+        app: marvinjs
+    spec:
+      containers:
+        - name: marvinjs
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/mjs-webservice:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: license-volume
+              mountPath: /license/
+              readOnly: true
+      imagePullSecrets:
+        - name: docker-hub-chemaxon
+      volumes:
+        - name: license-volume
+          persistentVolumeClaim:
+            claimName: license-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: marvinjs-service
+spec:
+  selector:
+    app: marvinjs
+  ports:
+    - protocol: TCP
+      port: 8060
+      targetPort: 8060

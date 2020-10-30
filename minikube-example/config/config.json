@@ -1,0 +1,24 @@
+{
+  "jmsDb": "http://jms-service:8001",
+  "jmsIo": "http://jms-service:8001",
+  "mjsService": "http://localhost:8060/",
+  "servicesDirectory": "/services/",
+  "remoteServices": [],
+  "secretKey": "CHANGETHIS",
+  "authentication": {
+    "internal": {
+      "type": "local",
+      "label": "Testing domain",
+      "accounts": [
+        {
+          "username": "demo5",
+          "password": "demo5"
+        }
+      ]
+    }
+  },
+  "databaseHost": "postgre-db-service",
+  "databaseName": "ml2",
+  "databaseUser": "postgres",
+  "databasePassword": "postgres"
+}

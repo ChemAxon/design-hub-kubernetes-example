@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jms-deployment
+  labels:
+    app: jms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jms
+  template:
+    metadata:
+      labels:
+        app: jms
+    spec:
+      containers:
+        - name: jms
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/jms-db:latest
+          ports:
+            - containerPort: 8001
+          volumeMounts:
+            - name: license-volume
+              mountPath: /app/jws//license
+              readOnly: true
+          env:
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: ""
+            - name: SERVER_PORT
+              value: "8001"
+        - name: jms-io
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/jms-io:latest
+          ports:
+            - containerPort: 8002
+          volumeMounts:
+            - name: license-volume
+              mountPath: /app/jws//license
+              readOnly: true
+          env:
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: ""
+            - name: SERVER_PORT
+              value: "8002"
+        - name: jms-structure
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/jms-structure:latest
+          ports:
+            - containerPort: 8003
+          volumeMounts:
+            - name: license-volume
+              mountPath: /app/jws//license
+              readOnly: true
+          env:
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: ""
+            - name: SERVER_PORT
+              value: "8003"
+        - name: jms-markush
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/jms-markush:latest
+          ports:
+            - containerPort: 8004
+          volumeMounts:
+            - name: license-volume
+              mountPath: /app/jws//license
+              readOnly: true
+          env:
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: ""
+            - name: SERVER_PORT
+              value: "8004"
+      imagePullSecrets:
+        - name: docker-hub-chemaxon
+      volumes:
+        - name: license-volume
+          persistentVolumeClaim:
+            claimName: license-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jms-service
+spec:
+  selector:
+    app: jms
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+      name: jms
+    - protocol: TCP
+      port: 8002
+      targetPort: 8002
+      name: jms-io
+    - protocol: TCP
+      port: 8003
+      targetPort: 8003
+      name: jms-structure
+    - protocol: TCP
+      port: 8004
+      targetPort: 8004
+      name: jms-markush

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: design-hub-deployment
+  labels:
+    app: design-hub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: design-hub
+  template:
+    metadata:
+      labels:
+        app: design-hub
+    spec:
+      containers:
+        - name: design-hub
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/ml2:20.19.0
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config/
+              readOnly: true
+            - name: license-volume
+              mountPath: /license/
+              readOnly: true
+            - name: services-volume
+              mountPath: /services/
+              readOnly: true
+          env:
+            - name: ML_JMS_DB
+              value: http://jms-service:8001
+            - name: ML_JMS_IO
+              value: http://jms-service:8002
+            - name: ML_JMS_MARKUSH
+              value: http://jms-service:8003
+            - name: ML_JMS_STRUCURE_MANIPULATION
+              value: http://jms-service:8004
+            - name: ML_MJS_SERVICE
+              value: http://marvinjs-service:8060
+      imagePullSecrets:
+          - name: docker-hub-chemaxon
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: config-volume-claim
+        - name: license-volume
+          persistentVolumeClaim:
+            claimName: license-volume-claim
+        - name: services-volume
+          persistentVolumeClaim:
+            claimName: services-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: design-hub-service
+spec:
+  selector:
+    app: design-hub
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+      nodePort: 30000
