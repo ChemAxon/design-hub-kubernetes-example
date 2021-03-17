@@ -12,7 +12,7 @@ spec:
     - ReadWriteMany
   storageClassName: manual
   hostPath:
-    path: /data/minikube-example/config/
+    path: /data/config/
   nodeAffinity:
     required:
       nodeSelectorTerms:

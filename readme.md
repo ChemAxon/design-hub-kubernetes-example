@@ -19,7 +19,7 @@ In a production environment the base part probably need more fine-tuning, and th
 3. ##### Mount folder to MiniKube #####
     As MiniKube runs in a container you need to mount it first there to be able to use it within the Design Hub deployment.
     ```console
-    minikube mount "/<path-to-this-directory>/:/data/"
+    minikube mount "/<path-to-this-repo-folder>/minikube-example/:/data/"
     ```
 4. ##### Configure Docker credentials #####
     Please note that when using Docker on Windows without WSL you have to modify `%USERPROFILE%\.docker\config.json` - remove part with `"credsStore": "desktop"`
