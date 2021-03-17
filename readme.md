@@ -8,11 +8,8 @@ In a production environment the base part probably need more fine-tuning, and th
 #### Try out the example with MiniKube ####
 
 1. ##### Copy ChemAxon licenses #####
-    * put your MarvinJS license file under `./licenses/marvin4js.cxl`
-    * put the rest of your ChemAxon licenses under `./license/license.cxl`
-	
-	Please note that there are two folders `license/` and `licenses/` side by side.
-
+    * put your ChemAxon license file under `./license/license.cxl`
+   
 2. ##### Install and run Kubernetes tools #####
     * install kubectl command line tool to manage Kubernetes cluster. https://kubernetes.io/docs/tasks/tools/install-kubectl/
     * install MiniKube to be able to locally try out Kubernetes. https://minikube.sigs.k8s.io/docs/start/
