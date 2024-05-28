@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: design-hub
-          image: hub.chemaxon.com/cxn-docker-release/chemaxon/ml2:20.19.0
+          image: hub.chemaxon.com/cxn-docker-release/chemaxon/dh:24.1.8
           ports:
             - containerPort: 8888
           volumeMounts:

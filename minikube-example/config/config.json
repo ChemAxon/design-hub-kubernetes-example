@@ -1,6 +1,8 @@
 {
   "jmsDb": "http://jms-service:8001",
   "jmsIo": "http://jms-service:8001",
+  "jmsStructureManipulation": "http://jms-service:8003",
+  "jmsMarkush": "http://jms-service:8004",
   "mjsService": "http://localhost:8060/",
   "servicesDirectory": "/services/",
   "remoteServices": [],
@@ -18,7 +20,7 @@
     }
   },
   "databaseHost": "postgre-db-service",
-  "databaseName": "ml2",
+  "databaseName": "dh",
   "databaseUser": "postgres",
   "databasePassword": "postgres"
 }
